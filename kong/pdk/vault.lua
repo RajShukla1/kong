@@ -46,7 +46,7 @@ local decode_json = cjson.decode
 
 
 local function new(self)
-  local ROTATION_INTERVAL = 60
+  local ROTATION_INTERVAL = 1
   local ROTATION_SEMAPHORE = semaphore.new(1)
   local ROTATION_WAIT = 0
 
