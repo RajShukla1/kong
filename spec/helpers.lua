@@ -3385,19 +3385,6 @@ local function get_grpc_target_port()
   return 15010
 end
 
-local function inject_coverage_options(nginx_conf_file)
-  local c = assert(pl_file.read(nginx_conf_file))
-  if c:find("require%s['\"]luacov['\"]") then
-    return
-  end
-
-  c = c:gsub("init_by_lua_block {",
-             "init_by_lua_block {\n" ..
-             "        require 'luacov'\n" ..
-             "        jit.off()\n")
-  pl_file.write(nginx_conf_file, c)
-end
-
 
 --- Start the Kong instance to test against.
 -- The fixtures passed to this function can be 3 types:
@@ -3485,11 +3472,8 @@ local function start_kong(env, tables, preserve_prefix, fixtures)
 
   truncate_tables(db, tables)
 
-  env.nginx_conf = env.nginx_conf or "spec/fixtures/custom_nginx.template"
+  env.nginx_conf = env.nginx_conf or "spec/fixtures/default_nginx.template"
   local nginx_conf = " --nginx-conf " .. env.nginx_conf
-  if os.getenv("KONG_COVERAGE") then
-    inject_coverage_options(env.nginx_conf)
-  end
 
   if dcbp and not env.declarative_config and not env.declarative_config_string then
     if not config_yml then
