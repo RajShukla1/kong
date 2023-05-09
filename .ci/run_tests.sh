@@ -30,6 +30,10 @@ else
     export TEST_CMD="bin/busted $BUSTED_ARGS,postgres,cassandra,db"
 fi
 
+if [[ "$KONG_TEST_COVERAGE" = true ]]; then
+    export TEST_CMD="$TEST_CMD --keep-going"
+fi
+
 if [ "$TEST_SUITE" == "integration" ]; then
     if [[ "$TEST_SPLIT" == first* ]]; then
         # GitHub Actions, run first batch of integration tests
