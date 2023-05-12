@@ -286,7 +286,7 @@ jobs:
           echo make dev # required to install other dependencies like bin/grpcurl
           echo source ${{ env.BUILD_ROOT }}/kong-dev-venv.sh
           echo .ci/run_tests.sh
-          mkdir -p test-failures
+          mkdir -p dbless-test-failures
           time > dbless-test-failures/time.txt
 
     - name: Upload test result artifacts
