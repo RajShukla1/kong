@@ -271,7 +271,8 @@ jobs:
     - name: Download test result artifacts
       uses: actions/download-artifact@v3
       with:
-        path: dbless-test-failures
+        name: dbless-test-failures
+        path: .test-failures
 
     - name: Tests
       env:
@@ -287,16 +288,20 @@ jobs:
           echo source ${{ env.BUILD_ROOT }}/kong-dev-venv.sh
           echo .ci/run_tests.sh
           pwd
-          mkdir -p dbless-test-failures
-          test -f dbless-test-failures/time.txt && cat dbless-test-failures/time.txt
-          time > dbless-test-failures/time.txt
+          test -f dbless && ls -R dbless
+          mkdir -p .test-failures
+          echo '>> reading date'
+          test -f .test-failures/time.txt && cat .test-failures/time.txt
+          echo '>> writing date'
+          date > .test-failures/time.txt
           exit 1
 
     - name: Upload test result artifacts
       uses: actions/upload-artifact@v3
       if: always()
       with:
-        path: dbless-test-failures
+        name: dbless-test-failures
+        path: .test-failures
 
 #  pdk-tests:
 #    name: PDK tests
