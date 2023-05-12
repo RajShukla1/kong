@@ -229,45 +229,45 @@ jobs:
     runs-on: ubuntu-22.04
 #    needs: build
 
-    services:
-      grpcbin:
-        image: moul/grpcbin
-        ports:
-          - 15002:9000
-          - 15003:9001
-
-    steps:
-    - name: Checkout Kong source code
-      uses: actions/checkout@v3
-
-    - name: Lookup build cache
-      id: cache-deps
-      uses: actions/cache@v3
-      with:
-        path: |
-          ${{ env.BUILD_ROOT }}
-
-        key: ${{ hashFiles('.requirements', 'kong-*.rockspec', '.bazelversion', '.bazelrc', 'build/**', 'BUILD.bazel', 'WORKSPACE', '.github/workflows/build_and_test.yml') }}
-
-    - name: Add gRPC test host names
-      run: |
-          echo "127.0.0.1 grpcs_1.test" | sudo tee -a /etc/hosts
-          echo "127.0.0.1 grpcs_2.test" | sudo tee -a /etc/hosts
-
-    - name: Run OpenTelemetry Collector
-      run: |
-          mkdir -p ${{ github.workspace }}/tmp/otel
-          touch ${{ github.workspace }}/tmp/otel/file_exporter.json
-          sudo chmod 777 -R ${{ github.workspace }}/tmp/otel
-          docker run -p 4317:4317 -p 4318:4318 -p 55679:55679 \
-              -v ${{ github.workspace }}/spec/fixtures/opentelemetry/otelcol.yaml:/etc/otel-collector-config.yaml \
-              -v ${{ github.workspace }}/tmp/otel:/etc/otel \
-              --name opentelemetry-collector -d \
-              otel/opentelemetry-collector-contrib:0.52.0 \
-              --config=/etc/otel-collector-config.yaml
-          sleep 2
-          docker logs opentelemetry-collector
-
+#    services:
+#      grpcbin:
+#        image: moul/grpcbin
+#        ports:
+#          - 15002:9000
+#          - 15003:9001
+#
+#    steps:
+#    - name: Checkout Kong source code
+#      uses: actions/checkout@v3
+#
+#    - name: Lookup build cache
+#      id: cache-deps
+#      uses: actions/cache@v3
+#      with:
+#        path: |
+#          ${{ env.BUILD_ROOT }}
+#
+#        key: ${{ hashFiles('.requirements', 'kong-*.rockspec', '.bazelversion', '.bazelrc', 'build/**', 'BUILD.bazel', 'WORKSPACE', '.github/workflows/build_and_test.yml') }}
+#
+#    - name: Add gRPC test host names
+#      run: |
+#          echo "127.0.0.1 grpcs_1.test" | sudo tee -a /etc/hosts
+#          echo "127.0.0.1 grpcs_2.test" | sudo tee -a /etc/hosts
+#
+#    - name: Run OpenTelemetry Collector
+#      run: |
+#          mkdir -p ${{ github.workspace }}/tmp/otel
+#          touch ${{ github.workspace }}/tmp/otel/file_exporter.json
+#          sudo chmod 777 -R ${{ github.workspace }}/tmp/otel
+#          docker run -p 4317:4317 -p 4318:4318 -p 55679:55679 \
+#              -v ${{ github.workspace }}/spec/fixtures/opentelemetry/otelcol.yaml:/etc/otel-collector-config.yaml \
+#              -v ${{ github.workspace }}/tmp/otel:/etc/otel \
+#              --name opentelemetry-collector -d \
+#              otel/opentelemetry-collector-contrib:0.52.0 \
+#              --config=/etc/otel-collector-config.yaml
+#          sleep 2
+#          docker logs opentelemetry-collector
+#
     - name: Download test result artifacts
       uses: actions/download-artifact@v3
 
@@ -284,6 +284,7 @@ jobs:
           echo make dev # required to install other dependencies like bin/grpcurl
           echo source ${{ env.BUILD_ROOT }}/kong-dev-venv.sh
           echo .ci/run_tests.sh
+          ls -lR
           mkdir -p dbless-test-failures
           test -f dbless-test-failures/time.txt && cat dbless-test-failures/time.txt
           time > dbless-test-failures/time.txt
