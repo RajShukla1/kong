@@ -288,6 +288,7 @@ jobs:
           echo .ci/run_tests.sh
           mkdir -p dbless-test-failures
           time > dbless-test-failures/time.txt
+          exit 1
 
     - name: Upload test result artifacts
       uses: actions/upload-artifact@v3
