@@ -270,8 +270,6 @@ jobs:
 
     - name: Download test result artifacts
       uses: actions/download-artifact@v3
-      with:
-        name: dbless-test-failures
 
     - name: Tests
       env:
