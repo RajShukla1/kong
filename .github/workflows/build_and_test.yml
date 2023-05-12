@@ -293,7 +293,7 @@ jobs:
       uses: actions/upload-artifact@v3
       if: always()
       with:
-        path: test-failures
+        path: dbless-test-failures
 
 #  pdk-tests:
 #    name: PDK tests
