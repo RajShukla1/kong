@@ -227,7 +227,7 @@ jobs:
   integration-tests-dbless:
     name: DB-less integration tests
     runs-on: ubuntu-22.04
-    needs: build
+#    needs: build
 
     services:
       grpcbin:
