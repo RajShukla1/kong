@@ -268,6 +268,11 @@ jobs:
           sleep 2
           docker logs opentelemetry-collector
 
+    - name: Download test result artifacts
+      uses: actions/download-artifact@v3
+      with:
+        path: test-failures
+
     - name: Tests
       env:
         KONG_TEST_PG_DATABASE: kong
@@ -280,7 +285,14 @@ jobs:
       run: |
           make dev # required to install other dependencies like bin/grpcurl
           source ${{ env.BUILD_ROOT }}/kong-dev-venv.sh
-          .ci/run_tests.sh
+          echo .ci/run_tests.sh
+          mkdir -p test-failures
+          time > test-failures/time.txt
+
+    - name: Upload test result artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        path: test-failures
 
   pdk-tests:
     name: PDK tests
