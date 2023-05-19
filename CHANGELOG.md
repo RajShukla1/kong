@@ -29,7 +29,10 @@
   [#10840](https://github.com/Kong/kong/pull/10840)
 - **Response Transformer**: fix an issue that plugin does not transform the response body while upstream returns a Content-Type with +json suffix at subtype.
   [#10656](https://github.com/Kong/kong/pull/10656)
-
+- **CORS**: In cases where a single origin is configured for the plugin,
+  do not send the ACAO header based on the plugin configuration if the
+  configuration contains only non-PCRE metacharacters.
+  [#10898](https://github.com/Kong/kong/pull/10898)
 
 ### Additions
 
