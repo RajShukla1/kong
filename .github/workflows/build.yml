@@ -32,7 +32,7 @@ jobs:
         repository: Kong/ngx_wasm_module
         path: ${{ env.NGX_WASM_MODULE_REMOTE }}
         ref: ${{ env.NGX_WASM_MODULE_BRANCH }}
-        token: ${{ secrets.PAT }}
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Lookup build cache
       id: cache-deps
