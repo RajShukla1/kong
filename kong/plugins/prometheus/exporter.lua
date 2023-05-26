@@ -12,7 +12,6 @@ if not balancer.get_all_upstreams then -- API changed since after Kong 2.5
 end
 
 local CLUSTERING_SYNC_STATUS = require("kong.constants").CLUSTERING_SYNC_STATUS
-local set_export_upstream_health_metrics
 
 local ITERATE_UPSTREAM_HEALTH_METRICS_INTERVAL = 600 -- 10 minutes
 
