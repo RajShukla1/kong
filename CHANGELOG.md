@@ -56,6 +56,8 @@
 
 - Fix a bug when worker consuming dynamic log level setting event and using a wrong reference for notice logging
   [#10897](https://github.com/Kong/kong/pull/10897)
+- Fix a bug which may lead to an error when running migrations due to a slow consensus across the database cluster
+  [#10946](https://github.com/Kong/kong/pull/10946)
 
 #### Admin API
 
